@@ -1,0 +1,189 @@
+/* Reset dan dasar */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body, html {
+    height: 100%;
+    background-color: #EDE8DC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .logo {
+    max-width: 140px;
+    height: auto;
+    user-select: none;
+    margin: 0 auto;
+  }
+
+  .register-wrapper {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(177, 127, 89, 0.25);
+    width: 380px;
+    max-width: 100%;
+    padding: 40px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h2 {
+    color: #B17F59;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    padding: 12px 15px;
+    border: 2px solid #A5B68D;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #4a4a4a;
+    background-color: #F9F9F7;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  select:focus {
+    border-color: #B17F59;
+    outline: none;
+    background-color: #fff;
+  }
+  
+  button.register-btn {
+    background-color: #B17F59;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(177, 127, 89, 0.5);
+    transition: background-color 0.3s ease;
+    user-select: none;
+    width: 100%;
+  }
+  
+  button.register-btn:hover,
+  button.register-btn:focus {
+    background-color: #8f6646;
+    outline: none;
+  }
+  
+  .login-text {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #6b6b6b;
+    text-align: center;
+  }
+  
+  .login-link {
+    color: #A5B68D;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .login-link:hover,
+  .login-link:focus {
+    color: #8a9a6f;
+    text-decoration: underline;
+  }
+  
+  /* Media Query untuk Handphone kecil (max-width 480px) */
+  @media (max-width: 480px) {
+    .register-wrapper {
+      max-width: 100%;
+      padding: 30px 20px 20px;
+      border-radius: 12px;
+    }
+  
+    h2 {
+      font-size: 1.6rem;
+    }
+  
+    button.register-btn {
+      font-size: 1rem;
+      padding: 12px 0;
+    }
+  
+    .login-text {
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Media Query untuk Tablet (481px - 768px) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    .register-wrapper {
+      max-width: 90%;
+      padding: 35px 25px 25px;
+    }
+  
+    h2 {
+      font-size: 1.8rem;
+    }
+  
+    button.register-btn {
+      font-size: 1.05rem;
+      padding: 14px 0;
+    }
+  }
+  
+  /* Media Query untuk Laptop kecil dan tablet landscape (769px - 1024px) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .register-wrapper {
+      max-width: 420px;
+      padding: 45px 35px 35px;
+    }
+  
+    h2 {
+      font-size: 1.9rem;
+    }
+  
+    button.register-btn {
+      font-size: 1.1rem;
+      padding: 15px 0;
+    }
+  }
+  
+  /* Media Query untuk Desktop dan Laptop besar (min-width 1025px) */
+  @media (min-width: 1025px) {
+    .register-wrapper {
+      max-width: 480px;
+      padding: 50px 40px 40px;
+    }
+  
+    h2 {
+      font-size: 2rem;
+    }
+  
+    button.register-btn {
+      font-size: 1.15rem;
+      padding: 16px 0;
+    }
+  }
+  

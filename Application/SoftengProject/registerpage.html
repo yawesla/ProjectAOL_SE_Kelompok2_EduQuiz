@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register EduQuiz</title>
+    <link rel="stylesheet" href="registerpage.css" />
+  </head>
+  <body>
+    <div class="register-wrapper">
+      <header>
+        <img src="logo.png" alt="Logo EduQuiz" class="logo" />
+      </header>
+      <h2>Register EduQuiz</h2>
+
+      <form id="register-form">
+        <input type="text" name="name" placeholder="Username" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="New Password"
+          required
+        />
+        <select name="role" required>
+          <option value="" disabled selected>Pilih Peran</option>
+          <option value="teacher">Teacher</option>
+          <option value="student">Student</option>
+        </select>
+        <button type="submit" class="register-btn">Register</button>
+      </form>
+
+      <p class="login-text">
+        Sudah punya akun?
+        <a href="loginpage.html" class="login-link">Login di sini</a>
+      </p>
+    </div>
+  </body>
+</html>
+
+
+<script>
+  document.getElementById("register-form").addEventListener("submit", async function (e) {
+    e.preventDefault(); // jangan submit normal
+
+    const form = e.target;
+
+    const data = {
+      name: form.name.value,
+      email: form.email.value,
+      password: form.password.value,
+      role: form.role.value,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        alert("Gagal register: " + (err.message || res.statusText));
+        return;
+      }
+
+      const result = await res.json();
+      alert("Register berhasil untuk " + result.name);
+
+      // redirect ke halaman lain (opsional)
+      window.location.href = "loginpage.html";
+    } catch (err) {
+      console.error("Register error:", err);
+      alert("Terjadi kesalahan saat register.");
+    }
+  });
+</script>

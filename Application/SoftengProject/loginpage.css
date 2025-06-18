@@ -1,0 +1,229 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body, html {
+    height: 100%;
+    background-color: #EDE8DC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .login-wrapper {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(177, 127, 89, 0.25);
+    width: 380px;
+    max-width: 100%;
+    padding: 40px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  header {
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .logo {
+    max-width: 140px;
+    height: auto;
+    user-select: none;
+    margin: 0 auto;
+  }
+  
+  .login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .login-form h2 {
+    color: #B17F59;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .login-form input[type="text"],
+  .login-form input[type="password"],
+  .login-form select {
+    padding: 12px 15px;
+    border: 2px solid #A5B68D;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #4a4a4a;
+    background-color: #F9F9F7;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .login-form input[type="text"]:focus,
+  .login-form input[type="password"]:focus,
+  .login-form select:focus {
+    border-color: #B17F59;
+    outline: none;
+    background-color: #fff;
+  }
+  
+  button.btn-login {
+    background-color: #B17F59;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(177, 127, 89, 0.5);
+    transition: background-color 0.3s ease;
+    user-select: none;
+    width: 100%;
+  }
+  
+  button.btn-login:hover,
+  button.btn-login:focus {
+    background-color: #8f6646;
+    outline: none;
+  }
+  
+  .register-text {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #6b6b6b;
+    text-align: center;
+  }
+  
+  .register-link {
+    color: #B17F59;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .register-link:hover,
+  .register-link:focus {
+    color: #8f6646;
+    text-decoration: underline;
+  }
+  
+
+  .button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  .button-group button {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button.register-btn {
+    background-color: #A5B68D;
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(165, 182, 141, 0.6);
+  }
+  
+  .button-group button.register-btn:hover,
+  .button-group button.register-btn:focus {
+    background-color: #8a9a6f;
+    outline: none;
+  }
+  
+  .button-group button.login-btn {
+    background-color: #B17F59;
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(177, 127, 89, 0.6);
+  }
+  
+  .button-group button.login-btn:hover,
+  .button-group button.login-btn:focus {
+    background-color: #8f6646;
+    outline: none;
+  }
+  
+
+  @media (max-width: 768px) {
+    .login-wrapper {
+        
+      width: 100%;
+      padding: 40px 30px 30px;
+    }
+  
+    .logo {
+      max-width: 120px;
+    }
+  
+    .login-form h2 {
+      font-size: 1.6rem;
+    }
+  }
+  
+@media (max-width: 768px) and (max-height: 1024px) {
+    .login-wrapper {
+      max-width: 90%;
+      padding: 35px 25px 25px;
+    }
+  
+    .logo {
+      max-width: 120px;
+    }
+  
+    .login-form h2 {
+      font-size: 1.6rem;
+    }
+  
+   
+    .button-group {
+      gap: 14px;
+    }
+  
+    .button-group button {
+      font-size: 1.05rem;
+      padding: 14px 0;
+    }
+  }
+ 
+  @media (max-width: 480px) {
+    .login-wrapper {
+      width: 100%;
+      padding: 30px 20px 20px;
+      border-radius: 12px;
+    }
+  
+    .logo {
+      max-width: 100px;
+    }
+  
+    .login-form h2 {
+      font-size: 1.4rem;
+    }
+  
+  
+    .button-group {
+      flex-direction: column;
+    }
+  
+    .button-group button {
+      width: 100%;
+    }
+  }

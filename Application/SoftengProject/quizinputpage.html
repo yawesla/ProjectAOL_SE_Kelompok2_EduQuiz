@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Detail - Admin EduQuiz</title>
+    <link rel="stylesheet" href="quizinputpage.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Quiz Detail - Kelola Soal Pilihan Ganda</h1>
+      </header>
+
+      <main class="main-content">
+        <section class="question-form-section">
+          <h2>Tambah / Edit Soal</h2>
+          <form id="questionForm">
+            <div class="form-group">
+              <label for="questionText">Pertanyaan:</label>
+              <textarea
+                id="questionText"
+                name="questionText"
+                rows="3"
+                placeholder="Masukkan pertanyaan"
+                required
+              ></textarea>
+            </div>
+
+            <div class="options-group">
+              <div class="option-box">
+                <label for="optionA">Pilihan A</label>
+                <input
+                  type="text"
+                  id="optionA"
+                  name="optionA"
+                  placeholder="Masukkan pilihan A"
+                />
+              </div>
+              <div class="option-box">
+                <label for="optionB">Pilihan B</label>
+                <input
+                  type="text"
+                  id="optionB"
+                  name="optionB"
+                  placeholder="Masukkan pilihan B"
+                />
+              </div>
+              <div class="option-box">
+                <label for="optionC">Pilihan C</label>
+                <input
+                  type="text"
+                  id="optionC"
+                  name="optionC"
+                  placeholder="Masukkan pilihan C"
+                />
+              </div>
+              <div class="option-box">
+                <label for="optionD">Pilihan D</label>
+                <input
+                  type="text"
+                  id="optionD"
+                  name="optionD"
+                  placeholder="Masukkan pilihan D"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="correctAnswer">Jawaban Benar:</label>
+              <select id="correctAnswer" name="correctAnswer" required>
+                <option value="" disabled selected>Pilih jawaban benar</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+
+            <div class="form-buttons">
+              <button type="submit" class="btn btn-primary">Simpan Soal</button>
+              <button
+                type="button"
+                id="cancelEditBtn"
+                class="btn btn-secondary hidden"
+              >
+                Batal Edit
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="questions-list-section">
+          <h2>Daftar Soal</h2>
+          <div class="table-wrapper">
+            <table class="questions-table" aria-label="Daftar soal quiz">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Pertanyaan</th>
+                  <th>Jawaban A</th>
+                  <th>Jawaban B</th>
+                  <th>Jawaban C</th>
+                  <th>Jawaban D</th>
+                  <th>Jawaban Benar</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="questionsTableBody">
+                <!-- Soal akan ditambahkan di sini -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="back-section">
+          <button id="backBtn" class="btn btn-secondary">
+            Kembali ke Halaman Sebelumnya
+          </button>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const questionForm = document.getElementById("questionForm");
+      const questionsTableBody = document.getElementById("questionsTableBody");
+      const cancelEditBtn = document.getElementById("cancelEditBtn");
+      const backBtn = document.getElementById("backBtn");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const quizId = urlParams.get("quizId");
+
+      let questions = [];
+      let editIndex = -1;
+
+      function renderQuestions() {
+        questionsTableBody.innerHTML = "";
+        questions.forEach((q, index) => {
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${q.questionText}</td>
+          <td>${q.optionA}</td>
+          <td>${q.optionB}</td>
+          <td>${q.optionC}</td>
+          <td>${q.optionD}</td>
+          <td><strong>${q.correctAnswer}</strong></td>
+        <td>
+  <div class="action-buttons">
+    <button class="action-btn">Edit</button>
+    <button class="btn-delete">Hapus</button>
+  </div>
+</td>
+        `;
+
+          questionsTableBody.appendChild(tr);
+        });
+
+        // Attach event listeners for edit and delete buttons
+        document.querySelectorAll(".btn-edit").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const idx = e.target.getAttribute("data-index");
+            startEditQuestion(parseInt(idx));
+          });
+        });
+
+        document.querySelectorAll(".btn-delete").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const idx = e.target.getAttribute("data-index");
+            deleteQuestion(parseInt(idx));
+          });
+        });
+      }
+
+      async function fetchQuizDetail() {
+        try {
+          const response = await fetch(
+            `http://localhost:3000/teacher/quizzes/${quizId}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                access_token: localStorage.getItem("access_token"),
+              },
+            }
+          );
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Gagal memuat detail quiz.");
+          }
+
+          const quizData = await response.json();
+          console.log("🚀 ~ quizData:", quizData.questions);
+
+          // Simpan soal ke array frontend
+          questions = quizData.questions.map((q) => ({
+            questionText: q.questionText,
+            optionA: q.options.A,
+            optionB: q.options.B,
+            optionC: q.options.C,
+            optionD: q.options.D,
+            correctAnswer: q.correctOption,
+          }));
+
+          // Tampilkan soal di tabel
+          renderQuestions();
+        } catch (error) {
+          alert("Gagal memuat soal: " + error.message);
+          console.error(error);
+        }
+      }
+
+      fetchQuizDetail();
+
+      function clearForm() {
+        questionForm.reset();
+        editIndex = -1;
+        cancelEditBtn.classList.add("hidden");
+        questionForm.querySelector('button[type="submit"]').textContent =
+          "Simpan Soal";
+      }
+
+      function startEditQuestion(index) {
+        const q = questions[index];
+        questionForm.questionText.value = q.questionText;
+        questionForm.optionA.value = q.optionA;
+        questionForm.optionB.value = q.optionB;
+        questionForm.optionC.value = q.optionC;
+        questionForm.optionD.value = q.optionD;
+        questionForm.correctAnswer.value = q.correctAnswer;
+        editIndex = index;
+        cancelEditBtn.classList.remove("hidden");
+        questionForm.querySelector('button[type="submit"]').textContent =
+          "Update Soal";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function deleteQuestion(index) {
+        if (confirm("Apakah Anda yakin ingin menghapus soal ini?")) {
+          questions.splice(index, 1);
+          renderQuestions();
+          if (editIndex === index) {
+            clearForm();
+          }
+        }
+      }
+
+      questionForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const newQuestion = {
+          questionText: questionForm.questionText.value.trim(),
+          option_A: questionForm.optionA.value.trim(),
+          option_B: questionForm.optionB.value.trim(),
+          option_C: questionForm.optionC.value.trim(),
+          option_D: questionForm.optionD.value.trim(),
+          correctOption: questionForm.correctAnswer.value,
+        };
+
+        // Validasi sederhana
+        if (
+          !newQuestion.questionText ||
+          !newQuestion.option_A ||
+          !newQuestion.option_B ||
+          !newQuestion.option_C ||
+          !newQuestion.option_D ||
+          !newQuestion.correctOption
+        ) {
+          alert("Semua field harus diisi dengan benar.");
+          return;
+        }
+
+        try {
+          console.log("🚀 ~ questionForm.addEventListener ~ quizId:", quizId);
+
+          const response = await fetch(
+            `http://localhost:3000/teacher/quizzes/${quizId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                access_token: localStorage.getItem("access_token"),
+              },
+              body: JSON.stringify(newQuestion),
+            }
+          );
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Gagal menambahkan soal.");
+          }
+
+          const result = await response.json();
+          console.log("🚀 ~ questionForm.addEventListener ~ result:", result);
+
+          // Tambahkan ke array frontend dan render ulang
+          questions.push({
+            questionText: result.questionText,
+            optionA: result.options.A,
+            optionB: result.options.B,
+            optionC: result.options.C,
+            optionD: result.options.D,
+            correctAnswer: result.correctOption,
+          });
+
+          renderQuestions();
+          clearForm();
+        } catch (error) {
+          alert("Terjadi kesalahan: " + error.message);
+          console.error(error);
+        }
+      });
+
+      cancelEditBtn.addEventListener("click", () => {
+        clearForm();
+      });
+
+      backBtn.addEventListener("click", () => {
+        window.history.back();
+      });
+
+      // Render awal (jika ada data awal, bisa dimasukkan di sini)
+      renderQuestions();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daftar Quiz - Admin EduQuiz</title>
+  <link rel="stylesheet" href="viewquiz.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <img src="logo.png" alt="Logo EduQuiz" class="logo" />
+      <h1>Daftar Quiz yang Pernah Dibuat</h1>
+    </header>
+
+    <main class="main-content">
+      <table class="quiz-table" aria-label="Daftar quiz yang pernah dibuat">
+        <thead>
+          <tr>
+            <th>Judul Quiz</th>
+            <th>Kode Quiz</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Quiz akan dimuat dari JavaScript -->
+        </tbody>
+      </table>
+
+      <button id="backHomeBtn" class="btn btn-secondary" aria-label="Kembali ke halaman home">
+        Kembali ke Halaman Home
+      </button>
+    </main>
+  </div>
+
+  <script>
+    // Fungsi untuk memuat daftar quiz dari backend
+    async function loadQuizzes() {
+      try {
+        const response = await fetch("http://localhost:3000/teacher/quizzes", {
+          headers: {
+            "Content-Type": "application/json",
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || "Gagal memuat data quiz");
+
+        const quizzes = result.data;
+        const tbody = document.querySelector(".quiz-table tbody");
+        tbody.innerHTML = "";
+
+        quizzes.forEach(quiz => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${quiz.title}</td>
+            <td>${quiz.code}</td>
+            <td>
+              <button class="btn btn-view-result" data-id="${quiz.id}">
+                View Result
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        attachViewResultHandlers();
+      } catch (error) {
+        console.error(error);
+        alert("Terjadi kesalahan saat memuat data quiz.");
+      }
+    }
+
+    // Fungsi untuk menangani klik tombol "View Result"
+    function attachViewResultHandlers() {
+      document.querySelectorAll(".btn-view-result").forEach(button => {
+        button.addEventListener("click", () => {
+          const quizId = button.getAttribute("data-id");
+          window.location.href = `leaderboard.html?quizId=${quizId}`;
+        });
+      });
+    }
+
+    // Tombol kembali ke home
+    document.getElementById("backHomeBtn").addEventListener("click", () => {
+      window.location.href = "adminlandingpage.html";
+    });
+
+    // Jalankan saat halaman dimuat
+    document.addEventListener("DOMContentLoaded", loadQuizzes);
+  </script>
+</body>
+</html>

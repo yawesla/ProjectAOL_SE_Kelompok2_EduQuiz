@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Admin EduQuiz</title>
+  <link rel="stylesheet" href="adminlandingpage.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">EduQuiz Teacher</div>
+    <div class="welcome-message" id="welcomeMessage">Selamat datang, Admin!</div>
+  </header>
+
+  <main class="main-content">
+    <section class="action-cards">
+      <div class="card create-quiz">
+        <h2>Buat Quiz Baru</h2>
+        <p>Buat kuis baru dengan mudah dan cepat untuk peserta EduQuiz.</p>
+        <button onclick="location.href='admincreatequiz.html'">Buat Quiz Baru</button>
+      </div>
+      <div class="card list-quiz">
+        <h2>Lihat Daftar Quiz</h2>
+        <p>Kelola dan pantau kuis yang sudah dibuat.</p>
+        <button onclick="location.href='viewquiz.html'">Lihat Daftar Quiz</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+    
+  </footer>
+</body>
+</html>
+
+<script>
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
+
+    alert('Logout berhasil!');
+    window.location.href = 'loginpage.html';
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const name = localStorage.getItem('name'); 
+    if (name) {
+      const welcomeEl = document.getElementById('welcomeMessage');
+      welcomeEl.textContent = `Selamat datang, ${name}!`;
+    }
+  });
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing Page EduQuiz</title>
+  <link rel="stylesheet" href="userlandingpage.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <img src="logo.png" alt="Logo EduQuiz" class="logo" />
+    </header>
+
+    <main class="main-content">
+      <section class="form-section">
+        <h1 class="title">Masukan Code Quiz</h1>
+        <form class="quiz-form" action="userwaitingroom.html">
+          <input
+            type="text"
+            name="username"
+            placeholder="Masukkan Username"
+            required
+            aria-label="Username"
+            class="quiz-input"
+          />
+          <input
+            type="text"
+            name="quizCode"
+            placeholder="Masukkan Kode Quiz"
+            required
+            aria-label="Kode Quiz"
+            class="quiz-input"
+          />
+          <button type="submit" class="btn-join">Join Quiz</button>
+        </form>
+      </section>
+
+      <section class="description-section">
+        <h2 class="desc-title">Dashboard EduQuiz</h2>
+        <p class="desc-text">
+            Dashboard EduQuiz adalah pusat kendali yang mudah digunakan untuk membuat, mengelola, dan memantau kuis secara real-time, lengkap dengan statistik partisipasi yang terorganisir.
+        </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
+
+<script>
+  document.querySelector('.quiz-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const username = this.username.value.trim();
+    const quizCode = this.quizCode.value.trim();
+
+    if (!username || !quizCode) {
+      alert('Username dan kode quiz harus diisi!');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/student/quiz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': localStorage.getItem('access_token') 
+        },
+        body: JSON.stringify({
+          username: username,
+          code: quizCode
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Gagal join quiz');
+      }
+
+      // Simpan data ke localStorage
+      localStorage.setItem('participantId', result.participantId);
+      localStorage.setItem('quizId', result.quizId);
+      localStorage.setItem('quizCode', result.code);
+      localStorage.setItem('username', result.username);
+
+      // Arahkan ke halaman user quiz
+      window.location.href = 'userquizpage.html';
+
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+      console.error('Join Quiz Error:', error);
+    }
+  });
+</script>

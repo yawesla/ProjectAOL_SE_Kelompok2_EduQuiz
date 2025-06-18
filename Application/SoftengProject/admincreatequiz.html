@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Admin - Create Quiz</title>
+  <link rel="stylesheet" href="admincreatequiz.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Dashboard Admin - Create Quiz</h1>
+    </header>
+
+    <main class="main-content">
+      <section class="quiz-creation">
+        <h2>Buat Quiz Baru</h2>
+        <form id="quizForm">
+          <label for="quizTitle">Judul Quiz:</label>
+          <input type="text" id="quizTitle" name="quizTitle" placeholder="Masukkan judul quiz" required />
+          <button type="submit" class="btn btn-primary">Buat Quiz</button>
+        </form>
+
+        <div id="quizCodeContainer" class="quiz-code-container hidden">
+          <p>Kode Quiz Anda:</p>
+          <div id="quizCode" class="quiz-code">-</div>
+        </div>
+      </section>
+
+      <section class="buttons-section">
+        <button id="startQuizBtn" class="btn btn-start" disabled>Start Quiz</button>
+        <button id="quizdetail" class="btn btn-detail" disabled>Quiz Detail</button>
+        <button id="backToHomeBtn" class="btn btn-secondary">Kembali ke Halaman Beranda</button>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const quizForm = document.getElementById("quizForm");
+    const quizCodeContainer = document.getElementById("quizCodeContainer");
+    const quizCodeDiv = document.getElementById("quizCode");
+    const startQuizBtn = document.getElementById("startQuizBtn");
+    const quizDetailBtn = document.getElementById("quizdetail");
+
+    quizForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("quizTitle").value;
+
+      try {
+        const token = localStorage.getItem("access_token");
+        const response = await fetch("http://localhost:3000/teacher/quizzes/new", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            access_token: localStorage.getItem('access_token') // atau ambil dari cookies
+          },
+          body: JSON.stringify({ title }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message || "Gagal membuat quiz");
+
+        // Tampilkan kode quiz di halaman
+        quizCodeContainer.classList.remove("hidden");
+        quizCodeDiv.textContent = data.code;
+
+        // Simpan quizId dan aktifkan tombol detail + start
+        localStorage.setItem("createdQuizId", data.id);
+        startQuizBtn.disabled = false;
+        quizDetailBtn.disabled = false;
+
+        alert("Quiz berhasil dibuat!");
+      } catch (err) {
+        alert("Error: " + err.message);
+        console.error(err);
+      }
+    });
+
+    // Quiz detail (navigasi ke halaman baru misal)
+    quizDetailBtn.addEventListener("click", () => {
+      const quizId = localStorage.getItem("createdQuizId");
+      if (quizId) {
+        window.location.href = `quizinputpage.html?quizId=${quizId}`;
+      }
+    });
+
+    // Back to home
+    document.getElementById("backToHomeBtn").addEventListener("click", () => {
+      window.location.href = "adminlandingpage.html";
+    });
+  });
+</script>

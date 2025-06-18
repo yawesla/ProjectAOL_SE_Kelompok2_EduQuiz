@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz User - EduQuiz</title>
+  <link rel="stylesheet" href="userquizpage.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Quiz EduQuiz</h1>
+
+    <div id="quizContainer">
+      <div id="questionNumber" class="question-number"></div>
+      <div id="questionText" class="question-text"></div>
+      <div id="timer" class="timer"></div>
+
+      <div id="answerOptions" class="answer-options"></div>
+
+      <div class="nav-buttons">
+        <button id="nextBtn" class="btn" disabled>Next</button>
+      </div>
+    </div>
+
+   <div id="resultContainer" class="result-container" style="display:none;">
+  <h2>Hasil Quiz</h2>
+  <div id="resultSummary"></div>
+  <button id="viewLeaderboardBtn" class="btn" onclick="window.location.href='leaderboard.html'">View Leaderboard</button>
+</div>
+
+  <script src="userquizpage.js"></script>
+</body>
+</html>

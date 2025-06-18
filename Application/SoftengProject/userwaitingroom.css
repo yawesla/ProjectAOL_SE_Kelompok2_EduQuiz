@@ -1,0 +1,136 @@
+/* Reset dan dasar */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  background: #A5B68D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #4a4a4a;
+}
+
+.waiting-wrapper {
+  background-color: #EDE8DC;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(177, 127, 89, 0.25);
+  max-width: 480px;
+  width: 100%;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.header .logo {
+  max-width: 140px;
+  height: auto;
+  margin: 0 auto 30px;
+  user-select: none;
+}
+
+.waiting-title {
+  font-size: 2rem;
+  color: #B17F59;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.waiting-message {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #3a3a3a;
+   font-weight: 700;
+   font-family: sans-serif;
+}
+
+.host-message {
+  background-color: #B17F59;
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.host-message h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color:#EDE8DC ;
+}
+
+.host-message p {
+      color:#EDE8DC ;
+    font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.login-link-wrapper {
+  margin-top: 10px;
+}
+
+.login-link {
+  color: #B17F59;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover,
+.login-link:focus {
+  color: #8f6646;
+  outline: none;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+  .waiting-wrapper {
+    padding: 30px 20px;
+    max-width: 90%;
+  }
+
+  .waiting-title {
+    font-size: 1.8rem;
+  }
+
+  .host-message h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .waiting-wrapper {
+    padding: 25px 15px;
+  }
+
+  .waiting-title {
+    font-size: 1.5rem;
+  }
+
+  .waiting-message {
+    font-size: 1rem;
+  }
+
+  .host-message {
+    padding: 15px;
+  }
+
+  .host-message h2 {
+    font-size: 1.1rem;
+  }
+
+  .host-message p {
+    font-size: 0.95rem;
+  }
+
+  .login-link {
+    font-size: 0.9rem;
+  }
+}

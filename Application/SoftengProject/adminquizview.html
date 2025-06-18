@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Host View - Admin EduQuiz</title>
+  <link rel="stylesheet" href="adminquizview.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Host View - Admin EduQuiz</h1>
+    <button id="startQuizBtn" class="btn primary-btn">Start Quiz</button>
+
+    <div id="hostView" class="host-view" style="display:none;">
+      <div id="questionNumber" class="question-number"></div>
+      <div id="questionText" class="question-text"></div>
+      <div id="timer" class="timer"></div>
+      <div id="answerOptions" class="answer-options"></div>
+
+      <div class="nav-buttons">
+        <button id="prevQuestionBtn" class="btn nav-btn" disabled>Previous</button>
+        <button id="nextQuestionBtn" class="btn nav-btn" disabled>Next</button>
+        <button id="completeQuestionBtn" class="btn nav-btn">Selesaikan Pertanyaan</button>
+        <button id="finishQuizBtn" class="btn finish-btn" style="display:none;">Finish Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="adminviewquiz.js"></script>
+</body>
+</html>
